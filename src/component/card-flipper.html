@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 id="h1">1</h1>
+    <script>
+      var dom = document.getElementById("h1");
+      function numberAnimation({ number, s }) {
+        var handle, //句柄
+          content = 0; //内容
+        var time = number / (s * 60); //秒数
+        //requestAnimationFrame 每秒大约60帧 就是每秒的执行次数 所以这里  *60
+        // number / (s * 60) 每一次执行 需要相加的大小
+        var fn = () => {
+          if (number - time <= content) {
+              //number - time  因为精度问题 最后一次执行 不一定满足 === number
+            cancelAnimationFrame(handle);
+            content = number;
+          } else {
+            content += time;
+            handle = requestAnimationFrame(fn);
+          }
+          dom.innerHTML = parseInt(content);
+          //取整 
+        };
+        requestAnimationFrame(fn);
+      }
+      numberAnimation({
+        number: 20,
+        s: 2
+      });
+    </script>
+  </body>
+</html>
